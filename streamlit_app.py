@@ -31,7 +31,7 @@ else:
     )
 
     jd = st.text_input(
-        "Paste Job Description", type=("text")
+        "Paste Job Description",
     )
 
     # Ask the user for a question via `st.text_area`.
