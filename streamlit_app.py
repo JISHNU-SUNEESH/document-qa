@@ -31,9 +31,14 @@ else:
     uploaded_file = st.file_uploader(
         "Upload Resume (.txt or .md)", type=("txt", "md")
     )
-    file_content=uploaded_file.read().decode('utf-8')
-    document=Document(page_content=file_content)
-    docs=[document]
+    if uploaded_file:
+        file_content=uploaded_file.read().decode('utf-8')
+        document=Document(page_content=file_content)
+        docs=[document]
+    
+
+    
+    
     jd = st.text_input(
         "Paste Job Description",
     )
