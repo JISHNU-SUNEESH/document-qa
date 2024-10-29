@@ -3,6 +3,7 @@ from openai import OpenAI
 from llama_index.core import SimpleDirectoryReader, VectorStoreIndex, Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from langchain_mistralai import ChatMistralAI
+from langchain_community.document_loaders import TextLoader
 # Show title and description.
 st.title("📄 Document question answering")
 st.write(
@@ -29,7 +30,7 @@ else:
     uploaded_file = st.file_uploader(
         "Upload Resume (.txt or .md)", type=("txt", "md")
     )
-
+    docs=TextLoader(uploaded_file).load()
     jd = st.text_input(
         "Paste Job Description",
     )
@@ -45,7 +46,7 @@ else:
 
         Settings.embed_model=HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
 
-        index=VectorStoreIndex.from_documents(uploaded_file)
+        index=VectorStoreIndex.from_documents(docs)
 
         query_engine=index.as_query_engine()
         response = query_engine.query(question)
