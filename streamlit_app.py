@@ -32,7 +32,7 @@ else:
 
     # Let the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
-        "Upload Resume (.txt or .md)", type=("txt", "md")
+        "Upload Resume (.pdf or .md or .txt)", type=("pdf", "md","txt")
     )
     if uploaded_file:
          with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as temp_file:
