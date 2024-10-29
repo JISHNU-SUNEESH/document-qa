@@ -91,7 +91,7 @@ else:
         # Stream the response to the app using `st.write_stream`.
         ex1=st.expander("Suitability Response")
         ex2=st.expander("Strength of resume")
-        ex3=st.expander()
-        ex4=st.expander()
+        # ex3=st.expander()
+        # ex4=st.expander()
         ex1.write(suitability_response.response)
         ex2.write(strength_response.response)
