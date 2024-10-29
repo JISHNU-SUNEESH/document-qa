@@ -9,10 +9,10 @@ from langchain.vectorstores import FAISS
 from langchain.indexes import VectorstoreIndexCreator
 import tempfile 
 # Show title and description.
-st.title("📄 Document question answering")
+st.title("📄 AI Resume Analyzer")
 st.write(
-    "Upload a document below and ask a question about it – GPT will answer! "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
+    "Upload the Resume and Job description the APP will tell the suitablity and Resume Score "
+    "To use this app, you need to provide a MistarlAI API key, which you can get [here](https://console.mistral.ai/api-keys). "
 )
 
 # Ask user for their OpenAI API key via `st.text_input`.
