@@ -37,8 +37,9 @@ else:
         file_content=uploaded_file.read().decode('utf-8')
         document=Document(page_content=file_content)
         docs=[document]
+        embeddings=HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
         index=VectorstoreIndexCreator(
-            embedding=HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5"),
+            embedding=embeddings,
             vectorstore_cls=FAISS
         ).from_documents(docs)
     
