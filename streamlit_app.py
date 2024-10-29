@@ -32,7 +32,7 @@ else:
 
     # Let the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
-        "Upload Resume (.pdf or .md or .txt)", type=("pdf", "md","txt")
+        "Upload Resume (.pdf)", type=("pdf")
     )
     if uploaded_file:
          with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
@@ -65,7 +65,7 @@ else:
         skill_query = f"Based on the resume, what are the candidate's key skills relevant to this job description: {jd}?"
         suitability_query = f"Based on the resume and job description {jd}, is the candidate suitable for the position? Explain your reasoning."
         summary_query = "Summarize the candidate's strengths and suitability for the position."
-        strength_query=f"Based on the resume and job description: {jd}, what is the score for the resume?"
+        strength_query=f"Based on the resume and job description: {jd}, what is the score for the resume?give the score in numbers for each attribute"
 
         skill_response = query_engine.query(skill_query)
         suitability_response = query_engine.query(suitability_query)
