@@ -1,2 +1,7 @@
 streamlit
 openai
+llama-index
+llama-index-embeddings-huggingface
+llama-index-llms-langchain
+langchain_mistralai
+langchain_community

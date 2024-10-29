@@ -1,6 +1,8 @@
 import streamlit as st
 from openai import OpenAI
-
+from llama_index.core import SimpleDirectoryReader, VectorStoreIndex, Settings
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from langchain_mistralai import ChatMistralAI
 # Show title and description.
 st.title("📄 Document question answering")
 st.write(
@@ -11,17 +13,25 @@ st.write(
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-openai_api_key = st.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
+api_key = st.text_input("API Key", type="password")
+if not api_key:
+    st.info("Please add your  API key to continue.", icon="🗝️")
 else:
 
     # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+    
+    llm=ChatMistralAI(model="mistral-large-latest",api_key=api_key)
+    Settings.llm=llm
+
+
 
     # Let the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
-        "Upload a document (.txt or .md)", type=("txt", "md")
+        "Upload Resume (.txt or .md)", type=("txt", "md")
+    )
+
+    jd = st.text_input(
+        "Paste Job Description", type=("text")
     )
 
     # Ask the user for a question via `st.text_area`.
@@ -33,21 +43,28 @@ else:
 
     if uploaded_file and question:
 
-        # Process the uploaded file and question.
-        document = uploaded_file.read().decode()
-        messages = [
-            {
-                "role": "user",
-                "content": f"Here's a document: {document} \n\n---\n\n {question}",
-            }
-        ]
+        Settings.embed_model=HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
 
-        # Generate an answer using the OpenAI API.
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            stream=True,
-        )
+        index=VectorStoreIndex.from_documents(uploaded_file)
+
+        query_engine=index.as_query_engine()
+        response = query_engine.query(question)
+
+        # Process the uploaded file and question.
+        # document = uploaded_file.read().decode()
+        # messages = [
+        #     {
+        #         "role": "user",
+        #         "content": f"Here's a document: {document} \n\n---\n\n {question}",
+        #     }
+        # ]
+
+        # # Generate an answer using the OpenAI API.
+        # stream = client.chat.completions.create(
+        #     model="gpt-3.5-turbo",
+        #     messages=messages,
+        #     stream=True,
+        # )
 
         # Stream the response to the app using `st.write_stream`.
-        st.write_stream(stream)
+        st.write_stream(response)
