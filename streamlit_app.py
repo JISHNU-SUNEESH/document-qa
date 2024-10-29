@@ -39,7 +39,7 @@ else:
         docs=[document]
         embeddings=HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
         index=VectorstoreIndexCreator(
-            embedding=embeddings,
+            embedding_model=embeddings,
             vectorstore_cls=FAISS
         ).from_documents(docs)
     
