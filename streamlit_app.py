@@ -35,7 +35,7 @@ else:
         "Upload Resume (.pdf or .md or .txt)", type=("pdf", "md","txt")
     )
     if uploaded_file:
-         with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as temp_file:
+         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
                 temp_file.write(uploaded_file.read())
                 file_path = temp_file.name
     
