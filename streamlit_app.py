@@ -5,6 +5,8 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from langchain_mistralai import ChatMistralAI
 from langchain_community.document_loaders import TextLoader
 from langchain.schema import Document
+from langchain.vectorstores import FAISS
+from langchain.indexes import VectorstoreIndexCreator
 # Show title and description.
 st.title("📄 Document question answering")
 st.write(
@@ -35,6 +37,10 @@ else:
         file_content=uploaded_file.read().decode('utf-8')
         document=Document(page_content=file_content)
         docs=[document]
+        index=VectorstoreIndexCreator(
+            embedding=HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5"),
+            vectorstore_cls=FAISS
+        ).from_documents(docs)
     
 
     
@@ -54,7 +60,7 @@ else:
 
         Settings.embed_model=HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
 
-        index=VectorStoreIndex.from_documents(docs)
+        # index=VectorStoreIndex.from_documents(docs)
 
         query_engine=index.as_query_engine()
         response = query_engine.query(question)
