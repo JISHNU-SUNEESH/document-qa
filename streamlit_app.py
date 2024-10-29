@@ -4,6 +4,7 @@ from llama_index.core import SimpleDirectoryReader, VectorStoreIndex, Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from langchain_mistralai import ChatMistralAI
 from langchain_community.document_loaders import TextLoader
+from langchain.schema import Document
 # Show title and description.
 st.title("📄 Document question answering")
 st.write(
@@ -30,7 +31,8 @@ else:
     uploaded_file = st.file_uploader(
         "Upload Resume (.txt or .md)", type=("txt", "md")
     )
-    docs=TextLoader(uploaded_file).load()
+    document=Document(uploaded_file)
+    docs=[document]
     jd = st.text_input(
         "Paste Job Description",
     )
