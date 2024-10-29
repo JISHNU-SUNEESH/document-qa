@@ -7,6 +7,7 @@ from langchain_community.document_loaders import TextLoader
 from langchain.schema import Document
 from langchain.vectorstores import FAISS
 from langchain.indexes import VectorstoreIndexCreator
+import tempfile 
 # Show title and description.
 st.title("📄 Document question answering")
 st.write(
@@ -34,14 +35,9 @@ else:
         "Upload Resume (.txt or .md)", type=("txt", "md")
     )
     if uploaded_file:
-        file_content=uploaded_file.read().decode('utf-8')
-        document=Document(page_content=file_content)
-        docs=[document]
-        embeddings=HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
-        index=VectorstoreIndexCreator(
-            embedding_model=embeddings,
-            vectorstore_cls=FAISS
-        ).from_documents(docs)
+         with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as temp_file:
+                temp_file.write(uploaded_file.read())
+                file_path = temp_file.name
     
 
     
@@ -60,8 +56,9 @@ else:
     if uploaded_file and question:
 
         Settings.embed_model=HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
+        documents = SimpleDirectoryReader(input_files=[file_path]).load_data()
 
-        # index=VectorStoreIndex.from_documents(docs)
+        index=VectorStoreIndex.from_documents(documents)
 
         query_engine=index.as_query_engine()
         response = query_engine.query(question)
