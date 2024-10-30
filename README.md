@@ -1,6 +1,8 @@
-# 📄 Document question answering template
+# 📄 AI Resume Analyser 
 
-A simple Streamlit app that answers questions about an uploaded document via OpenAI's GPT-3.5.
+ Introducing my AI Resume Analyzer, built using LlamaIndex, Mistral AI, and Streamlit for an intuitive and user-friendly experience.
+
+🚀 How it Works: Just upload your resume and the job description, and the app will assess: ✅ Suitability for the role based on the job description ✅ A detailed resume score across essential attributes
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://document-question-answering-template.streamlit.app/)
 
