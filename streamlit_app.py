@@ -11,7 +11,7 @@ import tempfile
 # Show title and description.
 st.title("📄 AI Resume Analyzer")
 st.write(
-    "Upload the Resume and Job description the APP will tell the suitablity and Resume Score "
+    "Upload the Resume and Job description the APP will tell the suitablity and Resume Score. "
     "To use this app, you need to provide a MistarlAI API key, which you can get [here](https://console.mistral.ai/api-keys). "
 )
 
